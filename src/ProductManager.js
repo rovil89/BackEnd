@@ -2,9 +2,11 @@ import fs from "fs";
 
 
 class ProductManager{
-    #path= "./Products.json";
+    #path;
     #accumulator = 0;
-    constructor() {}
+    constructor(path) {
+        this.#path = path;
+    }
 
 async addProducts (title, description, price, thumbnail, code,  stock) {
     const newProduct = {
@@ -25,7 +27,7 @@ async addProducts (title, description, price, thumbnail, code,  stock) {
         throw new Error ("Not Found / No encontrado");
     }
 
-    const productWithSameCodeExists = this.products.some(
+    const productWithSameCodeExists = products.some(
         (p) =>p.code === code);
 
         if(productWithSameCodeExists){
@@ -44,8 +46,8 @@ async getProducts() {
     }
 }
 async getProductById(code) {
-    const products = await this.getProducts();
-    const product = await this.products.find((prod) => prod.code === code);
+    const products = await getProducts();
+    const product = await products.find((prod) => prod.code === code);
 
     if (!product) {
         throw new Error(`Product with id ${code} not found`);
@@ -65,24 +67,5 @@ async deleteProducts(code){
 
 
 };
-
-async function main(){
-const manager = new ProductManager();
-
-
-await manager.addProducts("Barrio Fino", "La pizza del Big Boss", 1200, "Sin Imagen", 3000, 300);
-console.log(await manager.getProducts());
-
-await manager.addProducts("Culebrita", "La pizza de la brita", 1200, "Sin Imagen", 150 ,  150);
-console.log(await manager.getProducts());
-
-await manager.addProducts("Doble Muzza", "Con Muzza y medio", 1500, "Sin Imagen", 5000, 335);
-console.log(await manager.getProducts());
-
-await manager.deleteProducts();
-console.log(await manager.getProducts());
-
-}
-main();
 
 export default ProductManager
