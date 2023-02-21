@@ -1,4 +1,4 @@
-const fs = require ("fs");
+import fs from "fs";
 
 
 class ProductManager{
@@ -46,24 +46,14 @@ async getProducts() {
     }
 }
 async getProductById(code) {
-    await this.readFs();
-    const chkProductId = await this.products.find((prod) => prod.code === code);
+    const products = await this.getProducts();
+    const product = await this.products.find((prod) => prod.code === code);
 
-    if (!chkProductId) {
-    console.log(await `El ID ${code} NO pertenece en la lista de productos`);
-    return null
-    } else {
-    console.log(await `El ID ${code} Existe en la lista de productos!!!`);
-    const infoProduct = await this.products.find((prod) => {
-        if (prod.code === code) {
-        return {
-            ...prod,
-        };
-        }
-    });
-    console.log(await infoProduct);
+    if (!product) {
+        throw new Error(`Product with id ${id} not found`);
     }
-}
+    return product;
+    }
 async deleteProducts(code){
     const products = await this.getProducts();
 
@@ -96,3 +86,5 @@ console.log(await manager.getProducts());
 
 }
 main();
+
+export default ProductManager
