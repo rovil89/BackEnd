@@ -4,9 +4,7 @@ import fs from "fs";
 class ProductManager{
     #path= "./Products.json";
     #accumulator = 0;
-    constructor() {
-        this.products = [];
-    }
+    constructor() {}
 
 async addProducts (title, description, price, thumbnail, code,  stock) {
     const newProduct = {
@@ -50,7 +48,7 @@ async getProductById(code) {
     const product = await this.products.find((prod) => prod.code === code);
 
     if (!product) {
-        throw new Error(`Product with id ${id} not found`);
+        throw new Error(`Product with id ${code} not found`);
     }
     return product;
     }
