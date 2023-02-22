@@ -20,6 +20,8 @@ async addProducts (title, description, price, thumbnail, code,  stock) {
     const products = await this.getProducts();
     const updatedProducts = [...products, newProduct];
     await fs.promises.writeFile(this.#path, JSON.stringify(updatedProducts));
+    
+    
 
     this.#accumulator++;
 
@@ -34,7 +36,9 @@ async addProducts (title, description, price, thumbnail, code,  stock) {
             throw new Error ("This product already exists / Este producto ya existe");
         }
 
-}
+    
+};
+
 
 async getProducts() {
     try {
@@ -67,5 +71,7 @@ async deleteProducts(code){
 
 
 };
+
+
 
 export default ProductManager
