@@ -6,14 +6,7 @@ const manager = new ProductManager("./Products.json");
 
 app.get("/products", async (req, res)=>{
 
-await manager.addProducts("Barrio Fino", "La pizza del Big Boss", 1200, "Sin Imagen", 3000, 300);
-console.log(await manager.getProducts());
 
-await manager.addProducts("Culebrita", "La pizza de la brita", 1200, "Sin Imagen", 150 ,  150);
-console.log(await manager.getProducts());
-
-await manager.addProducts("Doble Muzza", "Con Muzza y medio", 1500, "Sin Imagen", 5000, 335);
-console.log(await manager.getProducts());
     try{
         const {limit} = req.query
         const products = await manager.getProducts();
@@ -43,4 +36,8 @@ app.get("/products/:pid", async (req, res)=>{
 
 app.listen(8080, () => {
     console.log("Server listening on port 8080");
-})
+});
+
+await manager.addProducts("Barrio Fino", "La pizza del Big Boss", 1200, "Sin Imagen", 3000, 300);
+await manager.addProducts("Culebrita", "La pizza de la brita", 1200, "Sin Imagen", 150 ,  150);
+await manager.addProducts("Doble Muzza", "Con Muzza y medio", 1500, "Sin Imagen", 5000, 335);
