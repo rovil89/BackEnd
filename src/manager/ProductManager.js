@@ -17,7 +17,7 @@ async addProducts (title, description, price, thumbnail, code,  stock) {
         code: this.#accumulator,
         stock,
     }
-    const products = await this.getProducts();
+    
     const updatedProducts = [...products, newProduct];
     await fs.promises.writeFile(this.#path, JSON.stringify(updatedProducts));
     

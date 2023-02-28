@@ -1,7 +1,11 @@
-import { Router } from "express";
+import { Router, json } from "express";
 
-const router  = Router ();
+const cartsRouter  = Router ();
+cartsRouter.use(json());
 
 let carts = [];
 
-export default router;
+
+
+
+export default cartsRouter;
