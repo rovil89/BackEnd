@@ -12,8 +12,8 @@ const manager = new ProductManager("./Products.json");
 const cartManager = new CartManager("./Carts.json");
 
 
-app.use("/api/products", productsRouter);
-app.use("/api/carts", cartsRouter);
+app.use("/api/products/", productsRouter);
+app.use("/api/carts/", cartsRouter);
 
 
 app.listen(8080, () => {
