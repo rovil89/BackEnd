@@ -1,4 +1,4 @@
-import express from "express";
+import express, {json} from "express";
 import ProductManager from "./manager/ProductManager.js";
 import productsRouter from "./routes/products.router.js";
 import CartManager from "./manager/CartManager.js";

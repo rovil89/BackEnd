@@ -1,5 +1,5 @@
 import { Router, json } from "express";
-import { manager } from ""
+import { manager } from "../app.js";
 
 let products = [];
 
