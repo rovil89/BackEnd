@@ -34,14 +34,15 @@ productsRouter.get("/:pid", async (req, res)=>{
 });
 
 productsRouter.post("/", async (req, res) => {
+    const products = manager.getProducts();
     try{ 
     const { title, description, code, price, status = true, stock, category, thumbnails = [] } = req.body;
 
     await manager.addProducts( title, description, code, parseInt(price), status, parseInt(stock), category, thumbnails );
 
     products = [...products, addProducts];
-    res.send(products) 
-                        } catch(err) {
+    res.send(products) }
+                        catch(err) {
         res.status(404).send(`${err}`)      
     }
 });
