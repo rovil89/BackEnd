@@ -11,7 +11,7 @@ app.use(json());
 
 app.use(express.static(__dirname + "/../public"));
 const manager = new ProductManager(__dirname + "/Products.json");
-const cartManager = new CartManager("./Carts.json");
+const cartManager = new CartManager("/Carts.json");
 
 
 app.use("/api/products", productsRouter);
