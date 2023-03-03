@@ -10,6 +10,7 @@ class ProductManager{
 
 async addProducts (title, description, price, thumbnail, code,  stock) {
     const newProduct = {
+        id: this.#accumulator,
         title,
         description,
         price,
