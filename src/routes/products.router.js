@@ -39,7 +39,7 @@ productsRouter.post("/", async (req, res) => {
     const { title, description, code, price, status = true, stock, category, thumbnails = [] } = req.body;
 
     await manager.addProducts( title, description, code, parseInt(price), status, parseInt(stock), category, thumbnails );
-
+    req.io.emit("new-product", req.body);
     products = [...products, addProducts];
     res.send(products) }
                         catch(err) {
@@ -53,6 +53,9 @@ productsRouter.put("/products/:pid", async (req, res) =>{
         const {pid} = req.params
         const id = parseInt(pid)
         await manager.updatedProducts(id, req.body)
+
+        const products = await manager.getProducts()
+        req.io.emit("update-product", products)
     
         res.send({status: "succes", payload: await manager.getProductById(id)})
     }catch(err){
@@ -64,7 +67,10 @@ productsRouter.delete("/:pid", async(req, res)=>{
     try{
         const {pid} = req.params
         const id = parseInt(pid)
-        await manager.deleteProducts(id)
+        await manager.deleteProducts(id, req.body)
+
+        const products = await manager.getProducts()
+        req.io.emit("delete-product", products)
 
         res.send({status: "succes", payload: "Producto eliminado"})
     } catch(err){

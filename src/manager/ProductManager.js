@@ -8,7 +8,7 @@ class ProductManager{
         this.#path = path;
     }
 
-async addProducts (title, description, price, thumbnail, code,  stock) {
+async addProducts (title, description, price, thumbnail, code,  stock, category) {
     const products = await this.getProducts();
 
     const existingProduct = products.find((p) => p.code === code);
@@ -24,6 +24,7 @@ async addProducts (title, description, price, thumbnail, code,  stock) {
         thumbnail,
         code,
         stock,
+        category,
     }
     
     const updatedProducts = [...products, newProduct];
