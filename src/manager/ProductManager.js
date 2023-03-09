@@ -3,28 +3,34 @@ import fs from "fs";
 
 class ProductManager{
     #path;
-    #accumulator = 0;
+    #nextId;
     constructor(path) {
         this.#path = path;
     }
 
 async addProducts (title, description, price, thumbnail, code,  stock) {
+    const products = await this.getProducts();
+
+    const existingProduct = products.find((p) => p.code === code);
+        if(existingProduct) {
+            throw new Error (`Poduct with code ${code} already exists`);
+        }
+
     const newProduct = {
-        id: this.#accumulator,
+        id: this.#nextId,
         title,
         description,
         price,
         thumbnail,
-        code: this.#accumulator,
+        code,
         stock,
     }
     
     const updatedProducts = [...products, newProduct];
+
     await fs.promises.writeFile(this.#path, JSON.stringify(updatedProducts));
     
-    
-
-    this.#accumulator++;
+    this.#nextId++;
 
     if(!title || !code || !description) {
         throw new Error ("Not Found / No encontrado");

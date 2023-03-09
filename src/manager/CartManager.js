@@ -1,15 +1,16 @@
 import fs from "fs" 
 
 class CartManager {
+    #nextId = 0;
     #path = ""
 
     constructor(path){
-        this.#path = path
+        this.#path = "./carts.json";
     }
 
     async getCarts(){
         try{
-            let carts = await fs.promises.readFile(this.#path, "utf-8")
+            const carts = await fs.promises.readFile(this.#path, "utf-8")
             return JSON.parse(carts)
         }catch(err){
             return []
@@ -28,30 +29,26 @@ class CartManager {
     }
 
     async addCart(){
-        try{
-            let carts = await this.getCarts()
-            let mayorID = await this.getIDs()
-            const cart = {
-                id: mayorID,
-                products: []
-            }
+        const carts = await this.getCarts();
 
-            carts = [...carts, cart]
+        const newCart = {
+            id: this.#nextId,
+            products: [],
+        };
 
-            await fs.promises.writeFile(this.#path, JSON.stringify(carts))
-        }catch(err){
-            throw new Error(err)
-        }
+        const updatedCarts = [...carts, newCart];
+        await fs.promises.writeFile(this.path, JSON.stringify(updatedCarts));
+        this.#nextId++;
+
+        return newCart;
     }
 
-    async getCartProducts(id){
+    async getCartById(id){
         let carts = await this.getCarts()
+        
         let cart = carts.find( c => c.id === id)
-        if (cart){
-            return cart
-        } else {
-            throw new Error("No se encontró carrito con ese ID.")
-        }
+        
+        return cart;
     }
 
     async addProductToCart(prod, cartID){
