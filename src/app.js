@@ -34,9 +34,15 @@ const socketServer = new Server(httpServer);
 
 socketServer.on("connection", (socket) => {
     console.log("Fran aprobame el desafio!!!");
+    // mensaje en terminal
+    
+socket.emit("messege", "Mensage de parte de Somos Pacifica!!!");
+// mensaje en consola
 
-    socket.on("messege", (data) =>{
+socket.on("messege", (data) =>{
         console.log(data);});
+
+        
 });
 
 export { manager, cartManager }
