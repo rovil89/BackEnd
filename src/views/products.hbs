@@ -1,0 +1,30 @@
+<div> 
+    <h3>Nombre : {{userDB.first_name}}</h3>
+    <h3>Apellido : {{userDB.last_name}}</h3>
+    <h3>Edad : {{userDB.age}}</h3>
+    <h3>Email : {{userDB.email}}</h3>
+
+
+    <h1>Products</h1>
+    <ul>
+        {{#each products.docs}} 
+            <li>{{this.title }}   ${{this.price}}</li> 
+        {{/each }}
+    </ul>
+    <div>
+        {{#if products.hasPrevPage }} {{! si tiene una pagina previa, le muestra el link href}}
+        <a href="/products?page={{products.prevPage}}">Anterior</a>
+        {{/if}}
+
+        <span>Página {{products.page}} de {{products.totalPages}}</span>
+
+        {{#if products.hasNextPage }} {{! si tiene una pagina previa, le muestra el link href}}
+        <a href="/products?page={{products.nextPage}}">Siguiente</a>
+        {{/if}}
+    </div>
+    <div>
+        <form action="/api/sessions/logout" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+</div>
