@@ -3,7 +3,6 @@ import ProductManager from "./manager/ProductManager.js";
 import productsRouter from "./routes/products.router.js";
 import CartManager from "./manager/CartManager.js";
 import cartsRouter from "./routes/carts.router.js";
-import __dirname from "./utils.js";
 import { engine }  from "express-handlebars"
 import viewsRouter from "./routes/views.router.js";
 import { Server } from "socket.io";
@@ -14,13 +13,18 @@ import MongoStore from "connect-mongo";
 import handlebars from "express-handlebars";
 import path from "path";
 import session from "express-session";
+import passport from "passport";
+import __dirname from "./utils.js";
 import {AuthRouter} from "./routes/auth.router.js";
 import {WebRouter} from "./routes/web.router.js";
+import {initializedPassport} from "./config/passport.config.js";
 
 
 const app = express();
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 const messages = [];
 const database = "mongodb+srv://rodrigovildoza:revp3242@rodrivp.xpq0vwj.mongodb.net/desafio?retryWrites=true&w=majority"
 
@@ -52,7 +56,10 @@ app.use("/api/carts", cartsRouter);
 app.use("/api/sessions", AuthRouter);
 app.use(WebRouter);
 
-
+// configurar PASSPORT
+initializedPassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Mongoose
 const main = async () => { 
