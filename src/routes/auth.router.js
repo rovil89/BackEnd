@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { UserModel } from "../dao/models/user.model.js";
-import { createHash, isValidPassword } from "../utils.js";
+import { createHash } from "../utils.js";
 import passport from "passport";
 
 const router = Router();
@@ -57,7 +57,6 @@ router.post("/signup", async (req, res) => {
 });
 
 router.get("/logout", (req, res) => {
-    // req.logOut elimina la propiedad req.user y limpia la sesion de autenticacion actual
     req.logOut(error => {
         if(error) {return res.send("No se pudo cerrar la sesion");
     } else { 

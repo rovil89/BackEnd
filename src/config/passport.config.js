@@ -16,7 +16,8 @@ const initializedPassport = () => {
                 const { name, age} = req.body;
                 const user = await UserModel.findOne({email:username});
                 if(user) {
-                    return done (null, false) //done(null aunque no haya errores, false xq no se creo un usuario nuevo)
+                    return done (null, false) 
+                    //done(null aunque no haya errores, false xq no se creo un usuario nuevo)
                 }
                 // si no existe el usuario en la base de datos, creamos uno nuevo
                 const newUser = {
