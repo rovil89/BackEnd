@@ -4,7 +4,7 @@ import ProductsManager from "../dao/file-managers/products.manager.js"
 import CartsManager from "../dao/file-managers/carts.manager.js";
 import MessageManager from "../dao/db-managers/messages.manager.js";
 import productsModel from "../dao/models/products.model.js";
-import cartModel from "../dao/models/carts.model.js";
+import {cartModel} from "../dao/models/carts.model.js";
 import { UserModel } from "../dao/models/user.model.js";
 
 

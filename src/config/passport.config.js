@@ -3,14 +3,39 @@ import LocalStrategy from "passport-local";
 import GithubStrategy from "passport-github2";
 import { UserModel } from "../dao/models/user.model.js";
 import { createHash } from "../utils.js";
+import jwt from "passport-jwt";
+import { options } from "./options.js";
 
-const initializedPassport = () => {
-    passport.use( "signupStrategy", new LocalStrategy(
-        //(identificador de la estrategia, la estrategia )
+const jwtStrategy = jwt.Strategy;  // creo la estrategia
+const ExtractJWT =  jwt.ExtractJwt; //extrae el token de la cookie
+
+export const initializePassport = ()=>{
+    //creamos la estrategia con passport jwt, autenticamos mediante passport
+    passport.use("authJWT", new jwtStrategy(
         {
-            usernameField: "email",
-            passReqToCallback: true
+            //extrae el token de la cookie
+            jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
+            secretOrKey: options.server.secretToken
         },
+        async(jwt_payload, done ) => {  //jwt:payload es la info que extraemos del token
+            try {
+                return done(null, jwt_payload) 
+            } catch (error) {
+                return done(error);
+            }
+        }
+    ))
+}
+
+export const cookieExtractor = (req) => {
+    let token = null;
+    if(req && req.cookies) {
+        //extraemos el token de la cookie
+        token = req.cookies[options.server.cookieToken]
+    } 
+    return token;
+}
+
         async  (req, username, password, done) => {
             try {
                 const { name, age} = req.body;
@@ -32,7 +57,6 @@ const initializedPassport = () => {
                 return done (error);
             }
         }
-    ))
 
     // Autenticacion GITHUB
     passport.use("githubSignup", new GithubStrategy(
@@ -73,6 +97,3 @@ const initializedPassport = () => {
         const user = await UserModel.findById(id);
         return done(null, user); 
     });
-}
-
-export { initializedPassport }

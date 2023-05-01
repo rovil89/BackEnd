@@ -1,9 +1,12 @@
 import { Router } from "express";
 import { UserModel } from "../dao/models/user.model.js";
+import {UserManagerMongo} from "../dao/db-managers/userManagerMongo.js";
 import { createHash } from "../utils.js";
 import passport from "passport";
+import jwt from "jsonwebtoken";
 
 const router = Router();
+const userManager = new UserManagerMongo(UserModel);
 
 // Rutas de autenticacion
 
@@ -43,16 +46,47 @@ router.post("/login", async (req, res) => {
         console.log(error);
     }
 });
-router.post("/signup", async (req, res) => {
-    try {
-    const {first_name, last_name, age, email, password} = req.body;
-    const newUser = await UserModel.create({first_name, last_name, age, email, password});
-    req.session.user= newUser.email;
+// router.post("/signup", async (req, res) => {
+//     try {
+//     const {first_name, last_name, age, email, password} = req.body;
+//     const newUser = await UserModel.create({first_name, last_name, age, email, password});
+//     req.session.user= newUser.email;
     
-    res.redirect("/products");
-    // res.send("Usuario Logueado");
+//     res.redirect("/products");
+//     // res.send("Usuario Logueado");
+//     } catch (error) {
+//         console.log(error);
+//     }
+// });
+
+router.post("/signup",async(req, res)=>{ 
+    try {
+        const {first_name, last_name, email, password} = req.body;
+        const user = await userManager.getUserByEmail(email);
+        if(!user){
+            let role='usuario';
+            if (username.endsWith("@coder.com")) {
+                role = "admin";
+            }
+            const newUser = {
+                first_name,
+                last_name,
+                email,
+                age,
+                password:createHash(password),
+                role
+            };
+            const userCreated = await userManager.addUser(newUser);
+            const token = jwt.sign({_id: userCreated._id, first_name: userCreated.first_name, email: userCreated.email, role: userCreated.role},
+                options.server.secretToken, {expiresIn: "24h"}); //expira el token en 24 hs
+                res.cookie(options.server.cookieToken, token, {
+                    httpOnly: true //para q no sea accesible  el navegador el token (es x seguridad)
+                }).redirect("/products"); //para que las cookies queden en el navegador
+        }else{
+            res.send(`<div> El usuario ya esta registrado, <a href="/login">Loguearse</a></div>`);
+        }
     } catch (error) {
-        console.log(error);
+        res.json({status:"error", message: error.message});
     }
 });
 
