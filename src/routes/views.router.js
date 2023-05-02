@@ -6,15 +6,39 @@ import MessageManager from "../dao/db-managers/messages.manager.js";
 import productsModel from "../dao/models/products.model.js";
 import {cartModel} from "../dao/models/carts.model.js";
 import { UserModel } from "../dao/models/user.model.js";
+import passport from "passport";
+import { UserManagerMongo } from "../dao/db-managers/userManagerMongo.js";
+
 
 
 const productsManager = new ProductsManager();
 const cartsManager = new CartsManager();
 const messageManager = new MessageManager();
+const userManager = new UserManagerMongo(UserModel);
+
 const router = Router();
 router.use(json());
 
-router.get("/products", async (req, res) => {
+// Rutas de vistas
+router.get("/", async (req, res) => {
+    const products = await manager.getProducts()
+    res.render("home", {products})
+});
+
+router.get("/login", (req, res) => {
+    res.render("login")
+});
+
+router.get("/signup", (req, res) => {
+    res.render("registro")
+});
+
+router.get("/profile", (req, res) => {
+    console.log(req.session);
+    res.render("perfil")
+});
+
+router.get("/products",passport.authenticate("authJWT",{session:false}) , async (req, res) => {
     const {page} = req.query;
     //codigo para renderizar products
     const products = await productsModel.paginate(
@@ -25,8 +49,9 @@ router.get("/products", async (req, res) => {
             page: page ?? 1 //se le puede agregar para ver la pag 2
         }
     );
-    const user = req.session.user;
-    const userDB = await UserModel.findOne({email:user}).lean(); 
+    const user = req.user;
+    console.log(user)
+    const userDB = await userManager.getUserByEmail(user.email); 
     console.log(userDB); 
     res.render("products", { products, userDB } );
 
@@ -58,15 +83,13 @@ router.get("/carts", async(req, res) => {
     });
 
 
-router.get("/home", async (req, res) => {
-    const products = await manager.getProducts()
-    res.render("home", {products})
-});
 
 router.get("/real-time-products", async (req,res)=>{
     const products = await manager.getProducts()
     res.render("real-time-products", {products})
 });
+
+
 
 
 
