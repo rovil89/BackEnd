@@ -19,8 +19,9 @@ import {AuthRouter} from "./routes/auth.router.js";
 import {initializePassport} from "./config/passport.config.js";
 import cookieParser from "cookie-parser";
 import { connectDB  } from "./config/dbConnection.js";
+import { options } from "./config/options.js"
 
-
+export const port = options.server.port;
 const app = express();
 
 connectDB();
@@ -57,8 +58,6 @@ app.engine('.hbs', handlebars.engine({extname: '.hbs'}));
 app.set('view engine', '.hbs');
 app.set('views', path.join(__dirname, "/views"));
 
-
-
 // Router
 app.use("/", viewsRouter);
 app.use("/api/products", productsRouter);
@@ -67,8 +66,8 @@ app.use("/api/sessions", AuthRouter);
 
 
 
-const httpServer = app.listen(8080, () => {
-    console.log("Server listening on port 8080");
+const httpServer = app.listen(port, () => {
+    console.log(`Server listening on port ${port}`);
 });
 
 const io = new Server(httpServer);

@@ -8,6 +8,7 @@ import {cartModel} from "../dao/models/carts.model.js";
 import { UserModel } from "../dao/models/user.model.js";
 import passport from "passport";
 import { UserManagerMongo } from "../dao/db-managers/userManagerMongo.js";
+import { viewsController, LoginViewsController, SignupViewsController, ProfileViewsController, ProductPassportController, ProductController, messageController, cartController, RealTimeProductController } from "../controllers/views.controller.js";
 
 
 
@@ -20,50 +21,12 @@ const router = Router();
 router.use(json());
 
 // Rutas de vistas
-router.get("/", async (req, res) => {
-    const products = await manager.getProducts()
-    res.render("home", {products})
-});
-
-router.get("/login", (req, res) => {
-    res.render("login")
-});
-
-router.get("/signup", (req, res) => {
-    res.render("registro")
-});
-
-router.get("/profile", (req, res) => {
-    console.log(req.session);
-    res.render("perfil")
-});
-
-router.get("/products",passport.authenticate("authJWT",{session:false}) , async (req, res) => {
-    const {page} = req.query;
-    //codigo para renderizar products
-    const products = await productsModel.paginate(
-        {},
-        {
-            limit: 5,
-            lean: true, 
-            page: page ?? 1 //se le puede agregar para ver la pag 2
-        }
-    );
-    const user = req.user;
-    console.log(user)
-    const userDB = await userManager.getUserByEmail(user.email); 
-    console.log(userDB); 
-    res.render("products", { products, userDB } );
-
-});
-
-
-
-router.get("/message", async(req, res) => {
-    const message = await messageManager.getAll();
-
-    res.render("messages", {messagesPanel});
-});
+router.get("/", viewsController );
+router.get("/login", LoginViewsController);
+router.get("/signup", SignupViewsController);
+router.get("/profile", ProfileViewsController);
+router.get("/products",ProductPassportController , ProductController);
+router.get("/message", messageController);
 
 // router.get("/products", async(req, res) => {
 //     const products = await productsManager.getAll();
@@ -71,26 +34,7 @@ router.get("/message", async(req, res) => {
 //     res.render("products", {products});
 // });
 
-router.get("/carts", async(req, res) => {
-    const carts = await cartModel.paginate(
-        {},
-        {
-            limit: 5,
-        }
-    );
-
-    res.send(carts);
-    });
-
-
-
-router.get("/real-time-products", async (req,res)=>{
-    const products = await manager.getProducts()
-    res.render("real-time-products", {products})
-});
-
-
-
-
+router.get("/carts", cartController);
+router.get("/real-time-products", RealTimeProductController);
 
 export default router;
