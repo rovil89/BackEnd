@@ -87,3 +87,10 @@ export const Logout = (req, res) => {
         })
     }
 };
+
+export const CurrentUserController = async (req, res) => {
+    if(req.session.user){
+        return res.send({userInfo: req.session})
+    }
+    res.send("Usuario no Logueado")
+}

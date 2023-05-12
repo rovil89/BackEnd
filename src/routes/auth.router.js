@@ -10,6 +10,8 @@ import { SignupController, FailSignupController, LoginController, GithubPassport
 const router = Router();
 const userManager = new UserManagerMongo(UserModel);
 
+
+
 // Rutas de autenticacion
 
 
@@ -21,6 +23,9 @@ router.post("/signup", SignupController);
 router.get("/failure-signup", FailSignupController);
 router.post("/login", LoginController);
 router.post("/logout", LogoutPassportController, Logout);
+router.get("/current", CurrentUserController);
+
+
 
 // router.get("/logout", (req, res) => {
 //     req.logOut(error => {
