@@ -7,7 +7,7 @@ import { engine }  from "express-handlebars"
 import viewsRouter from "./routes/views.router.js";
 import { Server } from "socket.io";
 import mongoose from "mongoose";
-import productsModel from "./dao/models/products.model.js";
+import {productsModel} from "./dao/models/products.model.js";
 import {cartModel} from "./dao/models/carts.model.js";
 import MongoStore from "connect-mongo";
 import handlebars from "express-handlebars";
