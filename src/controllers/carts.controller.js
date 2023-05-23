@@ -54,42 +54,39 @@ export const PurchaseController = async (req, res) => {
                 return res.send("Es necesario que agregue productos antes de realizar la compra")
             } 
 
-            //const ticketProducts = []; //prod que si puede comprar xq hay stock
-            //const rejectedProducts = []; //prod que no se pueden comprar xq no hay stock
+            const ticketProducts = []; //prod que si puede comprar xq hay stock
+            const rejectedProducts = []; //prod que no se pueden comprar xq no hay stock
 
             //verificamos q haya productos en el carrito
             for(let i=0; i<cart.products.length;i++) { //validar q esos prod esten en el inventario 
                 const cartProduct = cart.products[i];
-                //const productDB = await productsModel.findById(cartProduct.id); //me muestra los prod con sus titulo, stock, etc
-                console.log(cartProduct)}//me muestra los prod con sus titulo, stock, etc
+                const productDB = await productsModel.findById(cartProduct.product); //me muestra los prod con sus titulo, stock, etc
+                console.log("productDB",productDB)}//me muestra los prod con sus titulo, stock, etc
             
                 //comparar la cant de prod del carrito con el stick del producto
-            //     if(cartProduct.quantity<=productDB.stock){
-            //         ticketProducts.push(cartProduct);
-            //     } else {
-            //         rejectedProducts.push(cartProduct);
-            //     }
-                
-            // }
-            // console.log("ticketProducts", ticketProducts);
-            // console.log("rejectedProducts", rejectedProducts);
+                if(cartProduct.quantity<=productDB.stock){
+                ticketProducts.push(cartProduct);
+                } else {
+                    rejectedProducts.push(cartProduct);
+                }
+            console.log("ticketProducts", ticketProducts);
+            console.log("rejectedProducts", rejectedProducts);
 
-            // const newTicket = {
-            //     code: uuidv4(), //para el codigo del ticket
-            //     purchase_datetime: new Date().toLocaleString(), //para que la fecha sea mas legible
-            //     amount: 500,
-            //     purchaser:req.user.email
-            // }
-            // const ticketCreated = await ticketsModel.create(newTicket);
-            // res.send(ticketCreated)
+            const newTicket = {
+                 code: uuidv4(), //para el codigo del ticket
+                 purchase_datetime: new Date().toLocaleString(), //para que la fecha sea mas legible
+                amount: 500,
+                purchaser:req.user.email
+            }
+            const ticketCreated = await ticketsModel.create(newTicket);
+            res.send(ticketCreated)
 
         }
         else {
             res.send("El carrito no existe")
         }
     } catch (error) {
-        res.send(error.message)
-    }
+        res.send(error.message)}
 };
 
 
