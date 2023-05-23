@@ -5,15 +5,12 @@ import { createHash, isValidPassword } from "../utils.js";
 import passport from "passport";
 import jwt from "jsonwebtoken";
 import { options } from "../config/options.js";
-import { SignupController, FailSignupController, LoginController, GithubPassportController, GithubCallBackPassportController, GithubResCallback, LogoutPassportController, Logout } from "../controllers/auth.controller.js";
+import { CurrentUserController, PushUserController, UserController, SignupController, FailSignupController, LoginController, GithubPassportController, GithubCallBackPassportController, GithubResCallback, LogoutPassportController, Logout } from "../controllers/auth.controller.js";
 
 const router = Router();
 const userManager = new UserManagerMongo(UserModel);
 
-
-
 // Rutas de autenticacion
-
 
 // AUTENTICACION GITHUB
 router.get("/github", GithubPassportController);
@@ -24,6 +21,10 @@ router.get("/failure-signup", FailSignupController);
 router.post("/login", LoginController);
 router.post("/logout", LogoutPassportController, Logout);
 router.get("/current", CurrentUserController);
+
+//DAO
+router.get("/", UserController);
+router.post("/", PushUserController);
 
 
 

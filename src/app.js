@@ -21,7 +21,7 @@ import cookieParser from "cookie-parser";
 import { connectDB  } from "./config/dbConnection.js";
 import { options } from "./config/options.js"
 
-export const port = options.server.port;
+export const port = options.server.port || 8080;
 const app = express();
 
 connectDB();
