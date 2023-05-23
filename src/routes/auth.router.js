@@ -5,7 +5,7 @@ import { createHash, isValidPassword } from "../utils.js";
 import passport from "passport";
 import jwt from "jsonwebtoken";
 import { options } from "../config/options.js";
-import { CurrentUserController, PushUserController, UserController, SignupController, FailSignupController, LoginController, GithubPassportController, GithubCallBackPassportController, GithubResCallback, LogoutPassportController, Logout } from "../controllers/auth.controller.js";
+import { UserByIdController, CurrentUserController, PushUserController, UserController, SignupController, FailSignupController, LoginController, GithubPassportController, GithubCallBackPassportController, GithubResCallback, LogoutPassportController, Logout } from "../controllers/auth.controller.js";
 
 const router = Router();
 const userManager = new UserManagerMongo(UserModel);
@@ -25,6 +25,7 @@ router.get("/current", CurrentUserController);
 //DAO
 router.get("/", UserController);
 router.post("/", PushUserController);
+router.get("/:id", UserByIdController);
 
 
 

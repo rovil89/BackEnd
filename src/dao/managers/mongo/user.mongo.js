@@ -7,33 +7,33 @@ export class UserMongo {
 
     async get(){
         try {
-            return this.model.find(); //para obtener todos los contactos
+            return this.model.find(); //para obtener todos los usuarios
         } catch (error) {
             console.log(error.message);
-            throw new Error ("Hubo un error al obtener los contactos") 
+            throw new Error ("Hubo un error al obtener los usuarios") 
         }
     };
 
-    async post(contact){
+    async post(user){
         try {
-            const userCreated = await this.model.create(contact);
+            const userCreated = await this.model.create(user);
             return userCreated;
         } catch (error) {
             console.log(error.message);
-            throw new Error ("Hubo un error al crear los contactos") 
+            throw new Error ("Hubo un error al crear los usuarios") 
         }
     };
 
-    async getById (){ //PARA BUSCAR UN CONTACTO POR EL ID
+    async getById (id){ //PARA BUSCAR UN CONTACTO POR EL ID
         try {
-            const contact = await this.model.findById(id);
-            if(!contact){
+            const user = await this.model.findById(id);
+            if(!user){
                 throw new Error ("No se encontro al usuario") 
             }
-            return contact;
+            return user;
         } catch (error) {
             console.log(error.message);
-            throw new Error ("Hubo un error al buscar los contactos") 
+            throw new Error ("Hubo un error al buscar los usuarios") 
         }
     };
 }

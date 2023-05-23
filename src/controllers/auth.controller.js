@@ -6,13 +6,14 @@ import { createHash, isValidPassword } from "../utils.js";
 import { options } from "../config/options.js";
 import jwt from "jsonwebtoken";
 import {authDao} from "../dao/factory.js";
+import {userService} from "../repository/index.js";
 
 const userManager = new UserManagerMongo(UserModel);
 
 export const UserController = async(req, res) => {
     try {
-        const user = await authDao.get(); //esto deberia devolverme todos los contactos
-        res.json({status: "success", payload: user }); //payload hace referencia al resultado de la peticion
+        const users = await userService.getUsers(); //esto deberia devolverme todos los usuarios
+        res.json({status: "success", payload: users }); //payload hace referencia al resultado de la peticion
     } catch (error) {
         res.json({status:"error", message: error.message});
     }
@@ -20,8 +21,17 @@ export const UserController = async(req, res) => {
 
 export const PushUserController = async(req, res) => {
     try {
-        const userCreated = await authDao.post(req.body); 
+        const userCreated = await userService.createUser(req.body); 
         res.json({status: "success", payload: userCreated }); //payload hace referencia al resultado de la peticion
+    } catch (error) {
+        res.json({status:"error", message: error.message});
+    }
+};
+
+export const UserByIdController = async(req, res) => {
+    try {
+        const user = await userService.getUser(req.params.id);
+        res.json({status: "success", payload: user}); //payload hace referencia al resultado de la peticion
     } catch (error) {
         res.json({status:"error", message: error.message});
     }
