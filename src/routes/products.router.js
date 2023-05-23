@@ -1,6 +1,7 @@
 import { Router, json } from "express";
 import { ProductsManager } from "../dao/index.js";
 import { getProductController, getProductIdController, createProductController, updateProductController, deleteProductController} from "../controllers/products.controller.js";
+import {checkRole} from "../middleware/auth.js";
 
 
 let products = [];
@@ -11,9 +12,9 @@ const productsManager = new ProductsManager();
 
 productsRouter.get("/", getProductController);
 productsRouter.get("/:pid", getProductIdController);
-productsRouter.post("/", createProductController);
-productsRouter.put("/products/:pid", updateProductController);
-productsRouter.delete("/:pid", deleteProductController);
+productsRouter.post("/", checkRole(["admin"]), createProductController);
+productsRouter.put("/products/:pid",checkRole(["admin"]), updateProductController);
+productsRouter.delete("/:pid",checkRole(["admin"]) , deleteProductController);
 
 
 

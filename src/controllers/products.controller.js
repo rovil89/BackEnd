@@ -3,6 +3,7 @@ import { productsModel}  from "../dao/models/products.model.js";
 import {authDao} from "../dao/factory.js";
 import {productService} from "../repository/index.js";
 
+
 const productsManager = new ProductsManager(productsModel);
 
 export const getProductController = async  (req, res) => {
