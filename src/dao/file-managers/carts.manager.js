@@ -9,7 +9,7 @@ const path = __dirname + "/dao/file-managers/files/carts.json";
 export default class CartManager {
     constructor() {
         
-        console.log("working with carts using filesystem");
+        // console.log("working with carts using filesystem");
     }
 
         // getAll le todos los archivos JSON donde vamos a guardarlo

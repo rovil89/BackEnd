@@ -1,6 +1,6 @@
 import { Router, json } from "express";
 import { CartsManager } from "../dao/index.js";
-import { PurchaseController,CartController, PostCartController, CartProductController, DeleteCartController, PutCartController, DeleteProductController, PutProductController} from "../controllers/carts.controller.js"
+import {CartIdController, PurchaseController,CartController, PostCartController, CartProductController, DeleteCartController, PutCartController, DeleteProductController, PutProductController} from "../controllers/carts.controller.js"
 
 
 const cartsRouter  = Router ();
@@ -9,6 +9,7 @@ const cartManager = new CartsManager();
 
 
 cartsRouter.get("/", CartController );
+cartsRouter.get("/:cid", CartIdController );
 cartsRouter.post("/", PostCartController);
 cartsRouter.put("/", PutCartController);
 cartsRouter.post("/:cid/purchase", PurchaseController);

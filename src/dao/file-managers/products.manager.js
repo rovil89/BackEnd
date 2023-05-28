@@ -8,7 +8,7 @@ const path = __dirname + "/dao/file-managers/files/products.json";
 export default class ProductManager {
     constructor() {
         
-        console.log("working with products using filesystem");
+        // console.log("working with products using filesystem");
     }
 
         // getAll le todos los archivos JSON donde vamos a guardarlo

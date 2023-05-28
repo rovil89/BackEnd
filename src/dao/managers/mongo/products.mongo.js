@@ -24,7 +24,7 @@ export class ProductsMongo {
         }
     };
 
-    async getProductById (id){ //PARA BUSCAR UN CONTACTO POR EL ID
+    async getProductById (id){ //PARA BUSCAR UN PRODUCTO POR EL ID
         try {
             const product = await this.model.findById(id);
             if(!product){

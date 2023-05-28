@@ -17,7 +17,7 @@ export const PostCartController = async (req, res) => {
         const cartCreated = await cartModel.create({});
         res.send(cartCreated)
     } catch (error) {
-        re.send(error.message)
+        res.send(error.message)
     }
     // const {title, description, vendedor } = req.body;
     // // validacion
@@ -45,6 +45,15 @@ export const CartProductController = async (req, res) => {
     res.send({ status: "ok", payload: result});
 };
 
+export const CartIdController = async (req, res) => {
+    const {cid} = req.params;
+
+    const cart = await cartModel.findById(cid);
+
+    res.send(cart)
+
+};
+
 export const PurchaseController = async (req, res) => {
     try {
         const cartId = req.params.cid;
@@ -56,11 +65,13 @@ export const PurchaseController = async (req, res) => {
 
             const ticketProducts = []; //prod que si puede comprar xq hay stock
             const rejectedProducts = []; //prod que no se pueden comprar xq no hay stock
-
+            
+            console.log("cart", cart);
+            
             //verificamos q haya productos en el carrito
             for(let i=0; i<cart.products.length;i++) { //validar q esos prod esten en el inventario 
                 const cartProduct = cart.products[i];
-                const productDB = await productsModel.findById(cartProduct.product); //me muestra los prod con sus titulo, stock, etc
+                const productDB = await productsModel.findById(cartProduct.productId); //me muestra los prod con sus titulo, stock, etc
                 console.log("productDB",productDB)}//me muestra los prod con sus titulo, stock, etc
             
                 //comparar la cant de prod del carrito con el stick del producto

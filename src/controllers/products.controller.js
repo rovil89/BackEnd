@@ -2,9 +2,20 @@ import { ProductsManager } from "../dao/index.js";
 import { productsModel}  from "../dao/models/products.model.js";
 import {authDao} from "../dao/factory.js";
 import {productService} from "../repository/index.js";
+import {generateProducts} from "../utils.js";
 
 
 const productsManager = new ProductsManager(productsModel);
+
+export const mockController = (req, res) => {
+    const cant = 100; //vamos a generar 100 usuarios
+    let products = [];
+    for(let i=0; i<cant; i++) { //para que genere la cant de usuarios que le pedi
+        const product = generateProducts();
+        products.push(product);
+    };
+    res.json({products});
+}
 
 export const getProductController = async  (req, res) => {
     try {
