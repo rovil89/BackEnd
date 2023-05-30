@@ -1,7 +1,7 @@
 import { Router, json } from "express";
 import { ProductsManager } from "../dao/index.js";
 import {mockController, getProductController, getProductIdController, createProductController, updateProductController, deleteProductController} from "../controllers/products.controller.js";
-import {checkRole} from "../middleware/auth.js";
+import {checkRole} from "../middlewares/auth.js";
 
 
 let products = [];

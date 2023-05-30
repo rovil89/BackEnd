@@ -34,6 +34,6 @@ export const generateProducts = () => {
     }
 };
 
-const products = generateProducts();
-console.log(products);
+const product = generateProducts();
+console.log(product);
 

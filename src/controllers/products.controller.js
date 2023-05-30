@@ -3,19 +3,29 @@ import { productsModel}  from "../dao/models/products.model.js";
 import {authDao} from "../dao/factory.js";
 import {productService} from "../repository/index.js";
 import {generateProducts} from "../utils.js";
+import {CustomError} from "../services/curstomError.service.js";
+import {Errors} from "../enums/Errors.js";
+import {generateUserErrorInfo} from "../services/userErrorInfo.js";
+import {generateUserErrorParam} from "../services/userErrorParams.js";
 
 
 const productsManager = new ProductsManager(productsModel);
 
 export const mockController = (req, res) => {
-    const cant = 100; //vamos a generar 100 usuarios
-    let products = [];
-    for(let i=0; i<cant; i++) { //para que genere la cant de usuarios que le pedi
-        const product = generateProducts();
-        products.push(product);
-    };
-    res.json({products});
-}
+    try {
+        const cant = parseInt(req.query.cant) || 100; //vamos a generar 100 usuarios
+    
+        let products = [];
+    
+        for(let i=0; i<cant; i++) { //para que genere la cant de usuarios que le pedi
+            const product = generateProducts();
+            products.push(product);
+        };
+        res.json({products});
+    } catch (err) {
+        res.status(404).send({status: "success", error: `${err}`})
+    }
+};
 
 export const getProductController = async  (req, res) => {
     try {
@@ -38,9 +48,13 @@ export const getProductIdController = async (req, res)=>{
 export const createProductController = async (req, res) => {
     const {title, description, price, stock } = req.body;
 
-    if(!title || !description || !price || !stock) {
-        return res.status(400).send({ status:"error", payload: "Missing patameters"});
-    }
+    if(!title || !description || !price  ||!stock ){
+        CustomError.createError({ //todos estos items que agregamos son los que creamos en el customError.service
+            name: "User create error",
+            cause: generateUserErrorInfo(req.body), //eso lo creamos es userErrorInfo.js
+            message: "Error creando el usuario",
+            errorCode:Errors.INVALID_JSON  //los que creamos en el EEror.js
+    })};
 
     const result = await productsManager.create({
         title,

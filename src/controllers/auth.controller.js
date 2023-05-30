@@ -7,6 +7,7 @@ import { options } from "../config/options.js";
 import jwt from "jsonwebtoken";
 import {authDao} from "../dao/factory.js";
 import {userService} from "../repository/index.js";
+import {}
 
 const userManager = new UserManagerMongo(UserModel);
 
@@ -32,6 +33,13 @@ export const UserByIdController = async(req, res) => {
     try {
         const user = await userService.getUser(req.params.id);
         res.json({status: "success", payload: user}); //payload hace referencia al resultado de la peticion
+        if(Number.isNaN(id)){ 
+            CustomError.createError({
+                name: "user get by id error",
+                cause: generateUserErrorParam(id),
+                message: "eeror obteniendo el usuario por el id",
+                errorCode: EEror.INVALID_PARAM
+            })}
     } catch (error) {
         res.json({status:"error", message: error.message});
     }

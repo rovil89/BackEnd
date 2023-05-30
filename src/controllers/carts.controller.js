@@ -3,6 +3,8 @@ import {ticketsModel} from "../dao/models/tickets.model.js";
 import {cartModel} from "../dao/models/carts.model.js";
 import {productsModel} from "../dao/models/products.model.js";
 import {v4 as uuidv4} from "uuid";
+import {CustomError} from "../services/curstomError.service.js";
+import {Errors} from "../enums/Errors.js";
 
 const cartManager = new CartsManager();
 
@@ -109,6 +111,14 @@ export const DeleteCartController = async (req, res) => {
     res.send({ status: "ok", payload: result});
 };
 
+export const DeleteProductController = async (req, res) =>{
+    const { cartId, productId } = req.params;
+
+    const result = await cartModel.deleteProduct(cartId, productId);
+
+    res.send({ status: "ok", payload: result});
+};
+
 
 export const PutCartController = async (req, res) =>{
     try {
@@ -120,14 +130,6 @@ export const PutCartController = async (req, res) =>{
     } catch (error) {
         re.send(error.message)
     }
-};
-
-export const DeleteProductController = async (req, res) =>{
-    const { cartId, productId } = req.params;
-
-    const result = await cartModel.deleteProduct(cartId, productId);
-
-    res.send({ status: "ok", payload: result});
 };
 
 export const PutProductController = async (req, res) =>{

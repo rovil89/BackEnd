@@ -19,7 +19,8 @@ import {AuthRouter} from "./routes/auth.router.js";
 import {initializePassport} from "./config/passport.config.js";
 import cookieParser from "cookie-parser";
 import { connectDB  } from "./config/dbConnection.js";
-import { options } from "./config/options.js"
+import { options } from "./config/options.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
 
 export const port = options.server.port || 8080;
 const app = express();
@@ -63,6 +64,7 @@ app.use("/", viewsRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/sessions", AuthRouter);
+app.use(errorHandler);
 
 
 
