@@ -2,12 +2,14 @@ import { UserModel } from "../dao/models/user.model.js";
 import {UserManagerMongo} from "../dao/db-managers/userManagerMongo.js";
 import passport from "passport";
 import { createHash, isValidPassword } from "../utils.js";
-// import jwt from "passport-jwt";
 import { options } from "../config/options.js";
 import jwt from "jsonwebtoken";
-import {authDao} from "../dao/factory.js";
-import {userService} from "../repository/index.js";
-import {}
+import { userService } from "../repository/index.js";
+import { CustomError } from "../services/curstomError.service.js";
+import { Errors } from "../enums/Errors.js";
+import { generateUserErrorInfo } from "../services/userErrorInfo.js";
+import { generateUserErrorParam } from "../services/userErrorParams.js";
+// import jwt from "passport-jwt";
 
 const userManager = new UserManagerMongo(UserModel);
 
@@ -37,8 +39,8 @@ export const UserByIdController = async(req, res) => {
             CustomError.createError({
                 name: "user get by id error",
                 cause: generateUserErrorParam(id),
-                message: "eeror obteniendo el usuario por el id",
-                errorCode: EEror.INVALID_PARAM
+                message: "error obteniendo el usuario por el id",
+                errorCode: Errors.INVALID_PARAM
             })}
     } catch (error) {
         res.json({status:"error", message: error.message});
@@ -61,6 +63,13 @@ export const SignupController = async(req, res)=>{
                 password:createHash(password),
                 role
             };
+            if(!first_name || !last_name || !email || !age ){
+                CustomError.createError({ //todos estos items que agregamos son los que creamos en el customError.service
+                    name: "User create error",
+                    cause: generateUserErrorInfo(req.body), //eso lo creamos es userErrorInfo.js
+                    message: "Error creando el usuario",
+                    errorCode:Errors.INVALID_JSON  //los que creamos en el EEror.js
+                })};
             const userCreated = await userManager.addUser(newUser);
             const token = jwt.sign({_id: userCreated._id, first_name: userCreated.first_name, email: userCreated.email, role: userCreated.role},             options.server.secretToken, {expiresIn: "24h"}); //expira el token en 24 hs
             console.log("Token", token)
