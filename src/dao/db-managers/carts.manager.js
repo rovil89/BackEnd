@@ -21,8 +21,11 @@ export default class CartsManager{
         // carrito (esto retorna un objeto de mongoose)
     addProduct = async (cartId, productId) => {
         const cart = await cartModel.findById(cartId);
-
-        cart.products.push({ productId });
+        const cartProduct = {
+            product: productId, 
+            quantity: 1,
+        };
+        cart.products.push({ cartProduct });
         return cart.save();
     };
 
