@@ -21,16 +21,18 @@ import cookieParser from "cookie-parser";
 import { connectDB  } from "./config/dbConnection.js";
 import { options } from "./config/options.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
+import { addLogger } from "./utils/logger.js";
 
 export const port = options.server.port || 8080;
 const app = express();
 
-connectDB();
+// connectDB();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname,"/public")));
 app.use(cookieParser());
+app.use(addLogger);
 
 const messages = [];
 
@@ -65,7 +67,6 @@ app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/sessions", AuthRouter);
 app.use(errorHandler);
-
 
 
 const httpServer = app.listen(port, () => {

@@ -17,7 +17,7 @@ export const isValidPassword= (user, loginPassword) => {
 };
 
 export const customFaker = new Faker ({
-    locale: [es], //"es" es para que me muestre los datos en español, "en en ingles"
+    locale: [es], //"es" es para que me muestre los datos en español, "en" es en ingles
 });
 
 const { commerce, database, string } = customFaker;

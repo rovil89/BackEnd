@@ -14,6 +14,17 @@ const cartsManager = new CartsManager();
 const messageManager = new MessageManager();
 const userManager = new UserManagerMongo(UserModel);
 
+export const LoggerController = (req, res) => {
+    req.logger.silly("nivel silly");
+    req.logger.verbose("nivel verbose");
+    req.logger.debug("nivel debug");
+    req.logger.http("nivel http");
+    req.logger.info("nivel info");
+    req.logger.warn("nivel warn");
+    req.logger.error("nivel error");
+    res.send("Prueba niveles");
+};
+
 export const viewsController = async (req, res) => {
     const products = await manager.getProducts()
     res.render("home", {products})

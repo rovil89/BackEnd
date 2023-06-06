@@ -16,6 +16,7 @@ const userManager = new UserManagerMongo(UserModel);
 router.get("/github", GithubPassportController);
 router.get("/github-callback", GithubCallBackPassportController, GithubResCallback);
 
+
 router.post("/signup", SignupController);
 router.get("/failure-signup", FailSignupController);
 router.post("/login", LoginController);
@@ -26,7 +27,6 @@ router.get("/current", CurrentUserController);
 router.get("/", UserController);
 router.post("/", PushUserController);
 router.get("/:id", UserByIdController);
-
 
 
 // router.get("/logout", (req, res) => {
