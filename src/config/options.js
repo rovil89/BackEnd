@@ -21,5 +21,10 @@ export const options = {
         secretToken:SECRET_TOKEN,
         cookieToken:COOKIE_TOKEN,
         persistence:PERSISTENCE
-    }
+    },
+    gmail:{
+        emailToken: process.env.SECRET_TOKEN_EMAIL,
+        emailAdmin: process.env.EMAIL_ADMIN,
+        emailPass: process.env.EMAIL_PASSWORD
+    },
 };

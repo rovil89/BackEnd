@@ -8,7 +8,7 @@ import {cartModel} from "../dao/models/carts.model.js";
 import { UserModel } from "../dao/models/user.model.js";
 import passport from "passport";
 import { UserManagerMongo } from "../dao/db-managers/userManagerMongo.js";
-import { LoggerController, viewsController, LoginViewsController, SignupViewsController, ProfileViewsController, ProductPassportController, ProductController, messageController, cartController, RealTimeProductController } from "../controllers/views.controller.js";
+import {resetController, forgotController, LoggerController, viewsController, LoginViewsController, SignupViewsController, ProfileViewsController, ProductPassportController, ProductController, messageController, cartController, RealTimeProductController } from "../controllers/views.controller.js";
 
 
 
@@ -27,6 +27,10 @@ router.get("/signup", SignupViewsController);
 router.get("/profile", ProfileViewsController);
 router.get("/products",ProductPassportController , ProductController);
 router.get("/message", messageController);
+
+router.get("/forgot-password", forgotController);
+router.get("/reset-password", resetController);
+
 //Niveles
 router.get("/loggerTest", LoggerController);
 

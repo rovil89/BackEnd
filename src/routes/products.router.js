@@ -10,12 +10,13 @@ const productsRouter  = Router ();
 productsRouter.use(json());
 const productsManager = new ProductsManager();
 
+productsRouter.get("/mockingproducts", mockController);
 productsRouter.get("/", getProductController);
 productsRouter.get("/:pid", getProductIdController);
 productsRouter.post("/", checkRole(["admin"]), createProductController);
 productsRouter.put("/products/:pid",checkRole(["admin"]), updateProductController);
 productsRouter.delete("/:pid",checkRole(["admin"]) , deleteProductController);
-productsRouter.get("/mockingproducts", mockController);
+
 
 
 

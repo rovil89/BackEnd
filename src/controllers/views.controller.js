@@ -14,6 +14,15 @@ const cartsManager = new CartsManager();
 const messageManager = new MessageManager();
 const userManager = new UserManagerMongo(UserModel);
 
+export const forgotController = (req, res) => {
+    res.render("forgotPassword")
+};
+
+export const resetController = (req, res) => {
+    const token = req.query.token;
+    res.render("resetPassword", {token});
+};
+
 export const LoggerController = (req, res) => {
     req.logger.silly("nivel silly");
     req.logger.verbose("nivel verbose");
