@@ -30,6 +30,10 @@ const productsSchema = new mongoose.Schema({
     ],
     default: [],
     },
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users"
+    }
 });
 
 productsSchema.pre("findOne", function() {
