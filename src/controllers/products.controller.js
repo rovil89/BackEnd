@@ -93,16 +93,24 @@ export const updateProductController = async (req, res) =>{
 };
 
 export const deleteProductController = async(req, res)=>{
-    try{
-        const {pid} = req.params;
-        const id = parseInt(pid);
-        await productsManager.deleteProduct(id, req.body);
-
-        const products = await productsManager.getProducts()
-        req.io.emit("delete-product", products)
-
-        res.send({status: "succes", payload: "Producto eliminado"})
-    } catch(err){
-        res.status(404).send({status: "error", error: `${err}`})
+    try {
+        const productId = req.params.pid;
+        const product = await ProductModel.findById(productId);
+        if(product){
+            console.log("product", product);
+            const productOwner = JSON.parse(JSON.stringify(product.owner));
+            const userId = JSON.parse(JSON.stringify(req.user._id));
+            if((req.user.rol === "premium" && productOwner == userId) || req.user.rol === "admin"){
+                await ProductModel.findByIdAndDelete(productId);
+                return res.json({status:"success", message:"Producto Eliminado"});
+            } //si el rol es premium, y el owner es el mismo id del usuario que quiere eliminar el prod, SE LO PERMITIMOS
+            else {
+                res.json({status:"error", message: "No puedes borrar el producto"})
+            }
+        } else {
+            return res.json({status:"error", message: "El producto no existe"})
+        }
+    } catch (error) {
+        res.send(error.message);
     }
 }

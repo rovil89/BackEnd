@@ -15,7 +15,7 @@ productsRouter.get("/", getProductController);
 productsRouter.get("/:pid", getProductIdController);
 productsRouter.post("/", checkRole(["admin", "premium"]), createProductController);
 productsRouter.put("/products/:pid",checkRole(["admin"]), updateProductController);
-productsRouter.delete("/:pid",checkRole(["admin"]) , deleteProductController);
+productsRouter.delete("/:pid",checkRole(["admin", "premium"]) , deleteProductController);
 
 
 
