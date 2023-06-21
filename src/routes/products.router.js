@@ -13,7 +13,7 @@ const productsManager = new ProductsManager();
 productsRouter.get("/mockingproducts", mockController);
 productsRouter.get("/", getProductController);
 productsRouter.get("/:pid", getProductIdController);
-productsRouter.post("/", checkRole(["admin"]), createProductController);
+productsRouter.post("/", checkRole(["admin", "premium"]), createProductController);
 productsRouter.put("/products/:pid",checkRole(["admin"]), updateProductController);
 productsRouter.delete("/:pid",checkRole(["admin"]) , deleteProductController);
 

@@ -46,6 +46,17 @@ export const getProductIdController = async (req, res)=>{
 };
 
 export const createProductController = async (req, res) => {
+        try {
+            const product = req.body;
+            product.owner = req.user._id;
+            console.log(product);
+            res.send("Ok");
+            const productCreated = await ProductModel.create(product);
+            res.send(productCreated);
+        } catch (error) {
+            res.send(error.message);
+        };
+    
     const {title, description, price, stock } = req.body;
 
     if(!title || !description || !price  ||!stock ){
