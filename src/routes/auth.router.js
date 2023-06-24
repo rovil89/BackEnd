@@ -42,6 +42,7 @@ router.post("/forgot-password", async(req, res) => {
         await sendRecoveryPass(email, token);
         res.send("Se envió un correo a su cuenta para restablecer la contraseña, regresar <a href=/login>al login </a>")
     } catch (error) {
+        req.logger.error("error en forgot-password"+error);
         res.send(`<div> Error <a href="/forgot-password"> Intente otra vez</a><div>`)
     }
 });
@@ -73,7 +74,7 @@ router.post("/reset-password", async(req, res) => {
     }
 });
 
-// router.get("/logout", (req, res) => {
+// router.post("/logout", (req, res) => {
 //     req.logOut(error => {
 //         if(error) {return res.send("No se pudo cerrar la sesion");
 //     } else { 

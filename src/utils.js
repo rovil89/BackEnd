@@ -2,6 +2,8 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import bcrypt from "bcrypt";
 import {faker, Faker, es, en} from "@faker-js/faker";
+import jwt from "jsonwebtoken";
+import {options } from "./config/options.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

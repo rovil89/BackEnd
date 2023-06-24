@@ -24,6 +24,7 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 import { addLogger } from "./utils/logger.js";
 import { usersRouter } from "./routes/users.router.js";
 
+
 export const port = options.server.port || 8080;
 const app = express();
 
