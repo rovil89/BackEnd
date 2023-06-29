@@ -1,0 +1,145 @@
+paths:
+  /api/carts/:
+    get:
+      summary: Obtener todos los carrito
+      tags:
+        - Carritos
+      responses:
+        "200":
+          description: Todos los carrito fueron obtenidos correctamente
+          content: 
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#components/schemas/Cart'
+        "401":
+          description: Error por falta de permisos
+        "500":
+          description: Error interno del servidor
+  /api/carts/{cid}:
+    get:
+      summary: Obtener un carrito por el id
+      tags:
+        - Carritos
+      parameters:
+        - name: cid
+          in: path          
+          required: true
+          description: cid es el id del carrito que desea obtener
+          schema:
+            $type: string
+      responses:
+        "200":
+          description: Se obtuvo el carrito correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Cart'
+        "500":
+          description: Error interno del servidor
+    put:
+      summary: Actualizar el carrito por el id
+      tags:
+        - Carritos
+      parameters:
+        - name: cid
+          in: path          
+          required: true
+          description: cid es el id del carrito que desea actualizar
+          schema:
+            $type: string
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/updateCart'
+      responses:
+        "200":
+          description: Se actualizo el carrito correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Cart'
+        "500":
+          description: Error interno del servidor
+    delete:
+      summary: Eliminar el carrito por el id
+      tags:
+        - Carritos
+      parameters:
+        - name: cid
+          in: path          
+          required: true
+          description: cid es el id del carrito que desea eliminar
+          schema:
+            $type: string
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/deleteCart'
+      responses:
+        "200":
+          description: Se elimino el carrito correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Cart'
+        "500":
+          description: Error interno del servidor
+
+
+components:
+  schemas:
+    Cart:
+      type: object
+      properties: 
+        _id:
+          type: ObjectId
+          description: id del carrito autogenerado por la base de datos
+        product:
+          type: string
+          description: nombre del producto
+        quantity:
+          type: number
+          description: descripción del producto
+      example:
+        _id: ObjectId('hdqu324243d')
+        product: Muzzarella
+        quantity: 23
+  requestBodies:
+    updateCart:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: id del carrito autogenerado por la base de datos
+        product:
+          type: string
+          description: nombre del producto
+        quantity:
+          type: number
+          description: descripción del producto
+      example:
+        _id: ObjectId('hdqu324243d')
+        product: Muzzarella
+        quantity: 23
+    deleteCart:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: id del carrito autogenerado por la base de datos
+        product:
+          type: string
+          description: nombre del producto
+        quantity:
+          type: number
+          description: descripción del producto
+      example:
+        _id: ObjectId('hdqu324243d')
+        product: Muzzarella
+        quantity: 23

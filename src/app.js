@@ -23,6 +23,8 @@ import { options } from "./config/options.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { addLogger } from "./utils/logger.js";
 import { usersRouter } from "./routes/users.router.js";
+import { swaggerSpecs } from './config/docConfig.js';
+import swaggerUI from "swagger-ui-express";
 
 
 export const port = options.server.port || 8080;
@@ -70,6 +72,8 @@ app.use("/api/carts", cartsRouter);
 app.use("/api/sessions", AuthRouter);
 app.use("/api/users", usersRouter);
 app.use(errorHandler);
+
+app.use("/api/docs",swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
 
 
 
