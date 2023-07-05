@@ -1,3 +1,5 @@
+import { UserModel } from "../models/user.model.js";
+
 class UserManagerMongo{
     constructor(model){
         this.model=model;
@@ -21,6 +23,18 @@ class UserManagerMongo{
         } catch (error) {
             throw new Error(`Error al obtener usuario: ${error.message}`);
         }
+    };
+
+    getAll = async () => {
+        const users = await UserModel.find().lean();
+
+        return users;
+    };
+
+    create = async (user) => {
+        const result = await UserModel.create(user);
+
+        return result;
     };
 }
 
