@@ -4,7 +4,7 @@
   "main": "ProductManager.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha test/products.test.js",
     "start": "nodemon ./src/app.js"
   },
   "keywords": [],
@@ -34,5 +34,9 @@
     "swagger-ui-express": "^4.6.3",
     "uuid": "^9.0.0",
     "winston": "^3.9.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0"
   }
 }

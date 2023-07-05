@@ -30,11 +30,11 @@ const productsSchema = new mongoose.Schema({
     ],
     default: [],
     },
-    owner: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "users",
-        default: "admin"
-    }
+    // owner: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "users",
+    //     default: "admin"
+    // } DESCOMENTARLO, FUE HECHO PARA LOS TEST
 });
 
 productsSchema.pre("findOne", function() {

@@ -16,4 +16,10 @@ export default class ProductsManager{
 
         return result;
     };
+
+    delete = async (id) =>{
+        const result = await productsModel.findByIdAndDelete(id);
+
+        return result;
+    };
 }
