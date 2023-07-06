@@ -23,7 +23,7 @@ describe("Testing para la clase Sessions", () => {
         let pacificUser = {
             first_name: "Rodrigo",
             last_name: "Vildoza",
-            email:"ro12rrix@guaaua.com",
+            email:"ro12r21rix@guaaua.com",
             age: "34",
             password:"1234",
             role: "user"
@@ -37,7 +37,7 @@ describe("Testing para la clase Sessions", () => {
         let pacificUser = {
             first_name: "Homero",
             last_name: "Vildoza",
-            email:"rorRRIX@guaUuu.com",
+            email:"rorRRI21X@guaUuu.com",
             age: "34",
             password:"1234",
             role: "user"

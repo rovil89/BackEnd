@@ -18,6 +18,12 @@ export default class CartsManager{
         return result;
     };
 
+    delete = async (id) => {
+        const result = await cartModel.findByIdAndDelete(id);
+
+        return result;
+    };
+
         // carrito (esto retorna un objeto de mongoose)
     addProduct = async (cartId, productId) => {
         const cart = await cartModel.findById(cartId);

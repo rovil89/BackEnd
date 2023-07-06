@@ -4,7 +4,7 @@
   "main": "ProductManager.js",
   "type": "module",
   "scripts": {
-    "test": "mocha test/cart.test.js",
+    "test": "mocha test",
     "start": "nodemon ./src/app.js"
   },
   "keywords": [],
