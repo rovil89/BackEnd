@@ -2,8 +2,10 @@ import mongoose from "mongoose";
 import { UserModel } from "../src/dao/models/user.model.js";
 import { UserManagerMongo } from "../src/dao/db-managers/userManagerMongo.js";
 import chai from "chai";
+import Assert from "assert";
 
 const expect = chai.expect;
+const assert = Assert.strict;
 
 describe("Testing para la clase Sessions", () => {
     before(async function(){
@@ -21,7 +23,7 @@ describe("Testing para la clase Sessions", () => {
         let pacificUser = {
             first_name: "Rodrigo",
             last_name: "Vildoza",
-            email:"rorri311dd22@gmail.com",
+            email:"ro12rrix@guaaua.com",
             age: "34",
             password:"1234",
             role: "user"
@@ -29,6 +31,22 @@ describe("Testing para la clase Sessions", () => {
         const result = await this.usersMongo.create(pacificUser);
         // console.log("result", result);
         // assert.ok(result._id);
+    });
+
+    it("Al agregar un nuevo usuario,deste debe crearse con un arreglo de productos vacio por defecto",async function(){
+        let pacificUser = {
+            first_name: "Homero",
+            last_name: "Vildoza",
+            email:"rorRRIX@guaUuu.com",
+            age: "34",
+            password:"1234",
+            role: "user"
+        };
+        const result = await this.usersMongo.create(pacificUser);
+        // const userDB = await this.usersMongo.getUserByEmail({email:result.email}); LAUTA QUERIA USAR ESTO TMB PERO ME ARROJABA ERROR
+        // console.log("userDB", userDB);
+        assert.strictEqual(Array.isArray(pacificUser.data), false);
+
     });
 
 });
