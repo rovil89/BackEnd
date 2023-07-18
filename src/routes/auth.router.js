@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { UserModel } from "../dao/models/user.model.js";
 import {UserManagerMongo} from "../dao/db-managers/userManagerMongo.js";
-import { generateEmailToken, verifyEmailToken, isValidPassword, createHash } from "../utils.js";
+import { generateEmailToken, verifyEmailToken, isValidPassword, createHash, uploaderProfile } from "../utils.js";
 import passport from "passport";
 import jwt from "jsonwebtoken";
 import { options } from "../config/options.js";
@@ -18,7 +18,7 @@ router.get("/github", GithubPassportController);
 router.get("/github-callback", GithubCallBackPassportController, GithubResCallback);
 
 
-router.post("/signup", SignupController);
+router.post("/signup",uploaderProfile.single("avatar"), SignupController);
 router.get("/failure-signup", FailSignupController);
 router.post("/login", LoginController);
 router.post("/logout", LogoutPassportController, Logout);

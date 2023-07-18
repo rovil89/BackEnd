@@ -3,6 +3,43 @@ import { UserModel } from "../dao/models/user.model.js";
 
 const userManager = new UserManagerMongo(UserModel);
 
+export const DocumentController = async(req,res)=>{
+    try {
+        const userId = req.params.uid;
+        const user = await UserModel.findById(userId);
+        if(user){
+            console.log(req.files);
+            const identificacion = req.files['identificacion']?.[0] || null; //el ? sirve para saber si el usuario mando el archivo o no
+            const domicilio = req.files['domicilio']?.[0] || null;
+            const estadoDeCuenta = req.files['estadoDeCuenta']?.[0] || null;
+            const docs = [];
+            if(identificacion){
+                docs.push({name:"identificacion",reference:identificacion.filename});
+            }
+            if(domicilio){
+                docs.push({name:"domicilio",reference:domicilio.filename});
+            }
+            if(estadoDeCuenta){
+                docs.push({name:"estadoDeCuenta",reference:estadoDeCuenta.filename});
+            }
+            if(docs.length === 3){
+                user.status = "completo";
+            } else {
+                user.status = "incompleto";
+            } // si el usuario subio los 3 doc, sale "completo", en el caso que falte 1 "incompleto"
+            user.documents = docs;
+            const userUpdated = await UserModel.findByIdAndUpdate(user._id,user);
+            res.json({status:"success", message:"documentos actualizados"});
+
+        } else {
+            res.json({status:"error", message:"no es posible cargar los documentos"})
+        }
+    } catch (error) {
+        console.log(error.message);
+        res.json({status:"error", message:"hubo un error al cargar los documentos"})
+    }
+};
+
 export const PremiumController = async(req, res) => {
     try {
         const userId = req.params.uid;

@@ -19,7 +19,8 @@ export const initializePassport = ()=>{
         },
         async(jwt_payload, done ) => {  //jwt:payload es la info que extraemos del token
             try {
-                return done(null, jwt_payload) 
+                return done(null, jwt_payload);
+                user.last_connection = new Date(); 
             } catch (error) {
                 return done(error);
             }

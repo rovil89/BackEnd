@@ -9,6 +9,7 @@ import { CustomError } from "../services/curstomError.service.js";
 import { Errors } from "../enums/Errors.js";
 import { generateUserErrorInfo } from "../services/userErrorInfo.js";
 import { generateUserErrorParam } from "../services/userErrorParams.js";
+
 // import jwt from "passport-jwt";
 
 const userManager = new UserManagerMongo(UserModel);
@@ -126,6 +127,7 @@ export const LogoutPassportController = passport.authenticate("authJWT",{session
 
 export const Logout = (req, res) => {
     if(req.user){
+        user.last_connection = new Date();
         req.logout((error)=>{
             if(error) return res.send("La session no se pudo cerrar");
             res.clearCookie(options.server.cookieToken).send("sesion finalizada")
