@@ -1,7 +1,19 @@
 import {UserManagerMongo} from "../dao/db-managers/userManagerMongo.js";
 import { UserModel } from "../dao/models/user.model.js";
+import { userService } from "../repository/index.js";
 
 const userManager = new UserManagerMongo(UserModel);
+
+
+export const getUserController = async  (req, res) => {
+    try {
+        const users = await userService.getUsers(); 
+        res.json({status: "success", payload: users });
+    } catch (error) {
+        res.json({status:"error", message: error.message});
+    }
+};
+
 
 export const DocumentController = async(req,res)=>{
     try {

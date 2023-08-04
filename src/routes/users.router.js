@@ -4,8 +4,11 @@ import { checkRole } from "../middlewares/auth.js";
 import { DocumentController, PremiumController } from "../controllers/user.controller.js";
 import { checkAuthenticated } from "../middlewares/auth.js";
 import { uploaderDocument } from "../utils.js";
+import { getUserController } from "../controllers/user.controller.js";
 
 const router = Router();
+
+router.get("/", getUserController);
 
 router.put("/premium/:uid", checkRole(["admin"]) ,PremiumController);
 

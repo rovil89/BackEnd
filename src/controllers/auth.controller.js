@@ -127,9 +127,11 @@ export const LogoutPassportController = passport.authenticate("authJWT",{session
 
 export const Logout = (req, res) => {
     if(req.user){
+        const user = {...req.user};
         user.last_connection = new Date();
-        req.logout((error)=>{
+        req.logout(async(error)=>{
             if(error) return res.send("La session no se pudo cerrar");
+            const userUpdated = await UserModel.findByIdAndUpdate(user._id,user);
             res.clearCookie(options.server.cookieToken).send("sesion finalizada")
         })
     }

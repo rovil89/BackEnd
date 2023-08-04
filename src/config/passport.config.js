@@ -25,7 +25,30 @@ export const initializePassport = ()=>{
                 return done(error);
             }
         }
-    ))
+    ));
+
+    passport.use("loginStrategy", new LocalStrategy(
+        {
+            usernameField:"email"
+        },
+        async (username, password, done)=>{
+            try {
+                const user = await UserModel.findOne({email:username});
+                if(!user){
+                    return done(null, false);
+                }
+                //usuario existe, validar contraseña
+                if(!isValidPassword(password, user)) return done(null, false);
+                //modificar last_connection del usuario que se loguea
+                user.last_connection = new Date();
+                const userUpdated = await UserModel.findByIdAndUpdate(user._id,user);
+                return done(null, userUpdated);
+            } catch (error) {
+                return done(error);
+            }
+        }
+    ));
+
 }
 
 export const cookieExtractor = (req) => {
