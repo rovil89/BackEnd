@@ -72,8 +72,8 @@ export const SignupController = async(req, res)=>{
                     errorCode:Errors.INVALID_JSON  //los que creamos en el EEror.js
                 })};
             const userCreated = await userManager.addUser(newUser);
-            const token = jwt.sign({_id: userCreated._id, first_name: userCreated.first_name, email: userCreated.email, role: userCreated.role},             options.server.secretToken, {expiresIn: "24h"}); //expira el token en 24 hs
-            console.log("Token", token)
+            const token = jwt.sign({_id: userCreated._id, first_name: userCreated.first_name, email: userCreated.email, role: userCreated.role},options.server.secretToken, {expiresIn: "24h"}); //expira el token en 24 hs
+            // console.log("Token", token)
             res.cookie(options.server.cookieToken, token, {
                 httpOnly: true //para q no sea accesible  el navegador el token (es x seguridad)
             }).redirect("/products"); //para que las cookies queden en el navegador
