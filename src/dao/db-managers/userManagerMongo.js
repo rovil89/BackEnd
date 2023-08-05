@@ -36,6 +36,15 @@ class UserManagerMongo{
 
         return result;
     };
+
+    async deleteUser(userId) {
+        try {
+            const userToDelete = await userModel.findByIdAndDelete(userId)
+            return userToDelete
+        } catch (error) {
+            return error;
+        }
+    }
 }
 
 export {UserManagerMongo};

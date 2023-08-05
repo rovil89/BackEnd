@@ -3,3 +3,4 @@
 {"level":"error","message":"error en forgot-passwordReferenceError: jwt is not defined"}
 {"level":"error","message":"error en forgot-passwordReferenceError: jwt is not defined"}
 {"level":"error","message":"error en forgot-passwordReferenceError: options is not defined"}
+{"level":"error","message":"Cannot read property 'destroy' of undefined"}

@@ -1,14 +1,15 @@
 import { Router } from "express";
 import { UserModel } from "../dao/models/user.model.js";
 import { checkRole } from "../middlewares/auth.js";
-import { DocumentController, PremiumController } from "../controllers/user.controller.js";
+import { DocumentController, PremiumController, deleteOldUsersCapture, getUserController  } from "../controllers/user.controller.js";
 import { checkAuthenticated } from "../middlewares/auth.js";
 import { uploaderDocument } from "../utils.js";
-import { getUserController } from "../controllers/user.controller.js";
 
 const router = Router();
 
 router.get("/", getUserController);
+
+router.delete("/", deleteOldUsersCapture);
 
 router.put("/premium/:uid", checkRole(["admin"]) ,PremiumController);
 

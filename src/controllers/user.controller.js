@@ -4,14 +4,43 @@ import { userService } from "../repository/index.js";
 
 const userManager = new UserManagerMongo(UserModel);
 
+export const deleteOldUsers = async () => {
+    const users = await userManager.getAll();
+    const today = new Date();
+    const twoDays = new Date(today.getTime() - (48 * 60 * 60));
+    const filtrarUsuarios = users.filter(user => user.last_connection >= twoDays);
+    console.log(filtrarUsuarios);
+    const idsToDelete = await filtrarUsuarios.map(user => {
+        userManager.deleteUser(user._id);
+        deleteCart(user.cart)
+    });
+    console.log(idsToDelete);
+    return idsToDelete
+};
+
+export const deleteOldUsersCapture = async (req, res) => {
+    const users = await deleteOldUsers();
+    res.json({status:"success",payload: users})
+};
+
+
+const usersFiltered = async () => {
+    const users = await userManager.getAll();
+    const usersFiltered = users.map(user => {
+        return {
+        email: user.email,
+        name: user.first_name,
+        role: user.role
+        }
+    })
+    console.log(usersFiltered);
+    return usersFiltered
+};
 
 export const getUserController = async  (req, res) => {
-    try {
-        const users = await userService.getUsers(); 
-        res.json({status: "success", payload: users });
-    } catch (error) {
-        res.json({status:"error", message: error.message});
-    }
+    const users = await usersFiltered()
+    console.log(users);
+    res.json({status:"success",payload:users})
 };
 
 

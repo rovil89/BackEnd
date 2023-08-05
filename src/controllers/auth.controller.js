@@ -72,8 +72,8 @@ export const SignupController = async(req, res)=>{
                     errorCode:Errors.INVALID_JSON  //los que creamos en el EEror.js
                 })};
             const userCreated = await userManager.addUser(newUser);
-            const token = jwt.sign({_id: userCreated._id, first_name: userCreated.first_name, email: userCreated.email, role: userCreated.role},options.server.secretToken, {expiresIn: "24h"}); //expira el token en 24 hs
-            // console.log("Token", token)
+            const token = jwt.sign({_id: userCreated._id, first_name: userCreated.first_name, email: userCreated.email, role: userCreated.role},             options.server.secretToken, {expiresIn: "24h"}); //expira el token en 24 hs
+            console.log("Token", token)
             res.cookie(options.server.cookieToken, token, {
                 httpOnly: true //para q no sea accesible  el navegador el token (es x seguridad)
             }).redirect("/products"); //para que las cookies queden en el navegador
@@ -93,12 +93,13 @@ export const LoginController = async (req, res) => {
     try {
         const {email, password} = req.body;
         const user = await userManager.getUserByEmail(email);
+        // user.last_connection = new Date();
     
         if(user){
             console.log(user);
             if(isValidPassword(user, password)) {
                 const token = jwt.sign({_id: user._id, first_name: user.first_name, email: user.email, role: user.role},             options.server.secretToken, {expiresIn: "24h"}); //expira el token en 24 hs
-                console.log("Token", token)
+                // console.log("Token", token)
                 res.cookie(options.server.cookieToken, token, {
                 httpOnly: true //para q no sea accesible  el navegador el token (es x seguridad)
             }).redirect("/products"); //para que las cookies queden en el navegador
@@ -109,7 +110,7 @@ export const LoginController = async (req, res) => {
     // si ya existe enviamos un msj que el usuario ya existe
     res.send(`Usuario ya registrado <a href="/login">Inicia sesion </a>`);
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 };
 
@@ -125,17 +126,19 @@ export const GithubResCallback = (req, res) => {
 
 export const LogoutPassportController = passport.authenticate("authJWT",{session:false}); 
 
-export const Logout = (req, res) => {
-    if(req.user){
-        const user = {...req.user};
-        user.last_connection = new Date();
-        req.logout(async(error)=>{
-            if(error) return res.send("La session no se pudo cerrar");
-            const userUpdated = await UserModel.findByIdAndUpdate(user._id,user);
-            res.clearCookie(options.server.cookieToken).send("sesion finalizada")
-        })
+export const Logout = async(req, res) => {
+        try {
+            if(req.user){
+            const user ={...req.user};
+            user.last_connection = new Date();
+            await UserModel.findByIdAndUpdate(user._id,user);
+            res.clearCookie(options.server.cookieToken);
+            res.send('sesion finalzada')}
+        }catch (error) {
+            res.status(500).send({ status: 'error', error: error.message });
+        }
     }
-};
+
 
 export const CurrentUserController = async (req, res) => {
     if(req.session.user){
