@@ -133,7 +133,8 @@ export const Logout = async(req, res) => {
             user.last_connection = new Date();
             await UserModel.findByIdAndUpdate(user._id,user);
             res.clearCookie(options.server.cookieToken);
-            res.send('sesion finalzada')}
+            res.send('Sesion finalzada!!!')};
+            
         }catch (error) {
             res.status(500).send({ status: 'error', error: error.message });
         }
