@@ -93,7 +93,7 @@ export const LoginController = async (req, res) => {
     try {
         const {email, password} = req.body;
         const user = await userManager.getUserByEmail(email);
-        // user.last_connection = new Date();
+        user.last_connection = new Date();
     
         if(user){
             console.log(user);

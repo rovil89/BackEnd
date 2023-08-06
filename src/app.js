@@ -40,17 +40,6 @@ app.use(addLogger);
 
 const messages = [];
 
-// configuracion de session
-// app.use(session({
-//     store: MongoStore.create({
-//         mongoUrl: database,
-//         ttl:60
-//     }),
-//     secret: "claveSecreta",
-//     resave: true,
-//     saveUninitialized: true
-// }));
-
 const manager = new ProductManager(__dirname + "/Products.json");
 const cartManager = new CartManager(__dirname + "/Carts.json");
 
@@ -74,8 +63,6 @@ app.use("/api/users", usersRouter);
 app.use(errorHandler);
 
 app.use("/api/docs",swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
-
-
 
 const httpServer = app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
@@ -107,5 +94,6 @@ io.on("connection", (socket) => {
     });
 
 });
+
 
 export { manager, cartManager }
